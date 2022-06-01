@@ -57,7 +57,7 @@ class StripeController extends AbstractController
                 // Prix livraison : 
         $products_for_stripe[] = [
             'price_data' => [
-                'unit_amount' => $order->getCarrierPrice() * 100,
+                'unit_amount' => $order->getCarrierPrice(),
                 'currency' => 'eur',
                 'product_data' => [
                     'name' => $order->getCarrierName(),
