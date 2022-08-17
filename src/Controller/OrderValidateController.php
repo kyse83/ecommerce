@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
+use App\Classe\Mail;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,10 +25,15 @@ class OrderValidateController extends AbstractController
         if (!$order || $order->getUser() != $this->getUser()) {
             return $this->redirectToRoute('home');
         }
-        if (!$order->getIsPaid()) {
+        if ($order->getState()==0) {
             $cart->remove();
-            $order->setIsPaid(1);
+            $order->setState(1);
             $this->entityManager->flush();
+
+            $mail = new Mail();
+            $content = "Bonjour ".$order->getUser()->getfirstname()."<br/>Merci pour votre commande.</br>Tu as acheté pleins de trucs inutiles.";
+            $mail->send($order->getUser()->getEmail(),$order->getUser()->getfirstname(),'Votre commande sur la boutique Française est validée',$content);
+           
 
         }
         

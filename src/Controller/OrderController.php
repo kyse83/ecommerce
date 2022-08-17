@@ -51,7 +51,7 @@ class OrderController extends AbstractController
             $date = new DateTime();
             $carriers = $form->get('carriers')->getData(); 
             $delivery = $form->get('addresses')->getData();
-            $delivery_content = $delivery->getFirstName().''.$delivery->getLastName(); 
+            $delivery_content = $delivery->getFirstName().' '.$delivery->getLastName(); 
             $delivery_content .= '<br/>'.$delivery->getPhone(); 
             
             if ($delivery->getCompagny()) {
@@ -60,7 +60,7 @@ class OrderController extends AbstractController
             
             $delivery_content .= '<br/>'.$delivery->getAddress();
             $delivery_content .= '<br/>'.$delivery->getPostal().' '.$delivery->getCity();
-            $delivery_content .= ' <br/>'.$delivery->getCountry();
+            $delivery_content .= '<br/>'.$delivery->getCountry();
            
             //enristrer ma cmde
             $order = new Order();
@@ -71,7 +71,7 @@ class OrderController extends AbstractController
             $order->setCarrierName($carriers->getName());
             $order->setCarrierPrice($carriers->getPrice());
             $order->setDelivery($delivery_content);
-            $order->setIsPaid(0);
+            $order->setState(0);
 
             $this->entityManager->persist($order);
 
